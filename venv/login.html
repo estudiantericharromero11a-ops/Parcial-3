@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iniciar sesión</title>
+  <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+  <main style="max-width:600px; margin:3rem auto; padding:0 1rem;">
+    <h1>Iniciar sesión (simulado)</h1>
+    <form id="login-form" style="display:flex; flex-direction:column; gap:.6rem;">
+      <input id="nombre" placeholder="Nombre" required>
+      <input id="email" type="email" placeholder="Correo" required>
+      <button type="submit" class="btn btn--primary">Iniciar sesión</button>
+    </form>
+    <p style="margin-top:1rem; color:#64748b">Este inicio de sesión es solo una simulación para la demo. Los datos se guardan en localStorage.</p>
+  </main>
+
+  <script>
+    (function(){
+      const form = document.getElementById('login-form');
+      form.addEventListener('submit', e=>{
+        e.preventDefault();
+        const nombre = document.getElementById('nombre').value.trim();
+        const email = document.getElementById('email').value.trim();
+        if(!nombre || !email) return alert('Completa los campos');
+        const user = { nombre, email };
+        localStorage.setItem('user', JSON.stringify(user));
+        // volver a la página anterior si existe
+        const prev = document.referrer || 'index.html';
+        window.location.href = prev;
+      });
+    })();
+  </script>
+</body>
+</html>

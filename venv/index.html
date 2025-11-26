@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  index.html
+  ---------------------------------------------------------------
+  Página principal del catálogo. Muestra productos destacados, sección
+  de promociones y métodos de pago.
+
+  Autor: Richar Romero
+  Nota: El contenido se carga dinámicamente desde `assets/scripts/productos.js`.
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tienda web.">
+  <meta name="author" content="Richar Romero">
+
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+
+  <meta property="og:title" content="Tienda web">
+  <meta property="og:description" content="Tienda web hecha por Richar Romero.">
+  <meta property="og:image" content="assets/images/Logo.png">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tienda web">
+  <meta name="twitter:description" content="Tienda en línea de productos para el hogar.">
+  <meta name="twitter:image" content="assets/images/Logo.png">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <title>Tienda online</title>
+
+  <link rel="icon" href="assets/images/Logo.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/Logo.png" sizes="180x180">
+
+  <link rel="stylesheet" href="assets/styles/styles.css">
+  <link rel="manifest" href="site.webmanifest">
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+
+    <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="explorar.html">Exploración</a></li>
+        <li><a href="promos.html">Promociones</a></li>
+      </ul>
+    </nav>
+
+    <form class="search" role="search">
+      <label for="q" class="visually-hidden">Buscar</label>
+      <input id="q" name="q" type="search" placeholder="Buscar productos...">
+      <button type="submit" class="btn">Buscar</button>
+    </form>
+
+    <div class="auth">
+      <a href="login.html" data-auth-target class="btn btn--primary">Iniciar sesión</a>
+      <button id="btn-logout" class="btn" style="display:none; margin-left:.5rem;">Cerrar sesión</button>
+      <a href="carrito.html" class="btn">🛒 Carrito (<span id="cart-count">0</span>)</a>
+    </div>
+
+  </header>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- ACERCA DE -->
+    <section class="acerca-de">
+      <h2>Acerca de</h2>
+      <article class="contenido">
+        <p>Somos un equipo dedicado a productos para el hogar y jardinería.</p>
+
+        <figure>
+          <img src="assets/images/equipo.png" alt="Equipo de la tienda">
+          <figcaption>El equipo detrás de la tienda.</figcaption>
+        </figure>
+      </article>
+    </section>
+
+    <!-- PRODUCTOS -->
+    <section class="productos">
+      <h2>Productos con mayor reseña</h2>
+
+      <div class="grid-productos" id="products-grid">
+        <!-- Los productos se cargarán dinámicamente con JavaScript -->
+      </div>
+
+      <!-- PRODUCTO DESTACADO -->
+      <aside class="producto-destacado">
+        <img src="assets/images/producto_destacado.png" alt="Kit de jardinería">
+        <div>
+          <h3>Kit de jardinería</h3>
+          <p>Todo lo necesario para empezar tu jardín en casa.</p>
+          <ul>
+            <li>Incluye herramientas básicas</li>
+            <li>Semillas seleccionadas</li>
+            <li>Guía de cultivo</li>
+          </ul>
+          <button class="btn btn--primary add-to-cart"
+            data-id="4" data-name="Kit de jardinería" data-price="50000" data-img="assets/images/producto_destacado.png">
+            Agregar al carrito
+          </button>
+        </div>
+      </aside>
+    </section>
+
+    <!-- MÉTODOS DE PAGO -->
+    <section class="metodos-pago">
+      <h2>Métodos de pago</h2>
+
+      <div class="grid-pago">
+        <img src="assets/images/resource/visa.png" alt="Visa">
+        <img src="assets/images/resource/mastercard.png" alt="Mastercard">
+        <img src="assets/images/resource/paypal.png" alt="PayPal">
+        <img src="assets/images/resource/otro.png" alt="Otro método">
+      </div>
+    </section>
+
+    <!-- PROMOCIONES -->
+    <section class="promociones">
+      <h2>Promociones relámpago</h2>
+
+      <div class="grid-promos" id="promos-grid">
+        <!-- Las promociones se cargarán dinámicamente -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+
+    <div class="site-footer__grid">
+
+      <section class="contacto">
+        <h3>Contacto</h3>
+        <address>
+          Servicio técnico, Chocó, Colombia <br>
+          Sitio verificado
+        </address>
+        <nav class="redes">
+          <a href="#">FB</a>
+          <a href="#">TW</a>
+          <a href="#">IG</a>
+        </nav>
+        <a href="#" class="btn">Contáctanos</a>
+      </section>
+
+      <section class="sugerencias">
+        <h3>Sugerencias</h3>
+        <form>
+          <input id="nombre" type="text" placeholder="Nombre">
+          <input id="correo" type="email" placeholder="Correo">
+          <textarea id="mensaje" placeholder="Mensaje"></textarea>
+          <button type="submit" class="btn btn--primary">Enviar</button>
+        </form>
+      </section>
+
+    </div>
+
+    <div class="copy">
+      <p>© 2025 Hecha por Richar Romero. Todos los derechos reservados.</p>
+      <p><a href="#">Política de privacidad</a> | <a href="#">Términos y servicios</a></p>
+    </div>
+  </footer>
+
+  <!-- ASISTENTE DE ACCESIBILIDAD -->
+  <style>
+    /* Clase utilitaria para accesibilidad: oculta visualmente pero disponible para lectores */
+    .visually-hidden {
+      position: absolute !important;
+      height: 1px; width: 1px;
+      overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
+      white-space: nowrap; border: 0; padding: 0; margin: -1px;
+    }
+  </style>
+
+  <!-- Script del carrito -->
+  <script src="assets/scripts/productos.js"></script>
+  <script src="assets/scripts/cart.js"></script>
+  <script src="assets/scripts/index.js"></script>
+  <script src="assets/scripts/header.js"></script>
+  <script src="assets/scripts/forms.js"></script>
+
+</body>
+</html>

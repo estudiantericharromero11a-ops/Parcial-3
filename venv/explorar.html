@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  explorar.html
+  ---------------------------------------------------------------
+  Página de exploración y resultados de búsqueda. Recibe parámetro
+  `search` en la query string y filtra productos desde `productos.js`.
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Explorar productos</title>
+  <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="promos.html">Promociones</a></li>
+      </ul>
+    </nav>
+    <form class="search" role="search">
+      <input id="q-explorar" type="search" placeholder="Buscar productos...">
+      <button class="btn">Buscar</button>
+    </form>
+  </header>
+
+  <main style="max-width:1100px; margin:2rem auto; padding:0 1rem;">
+    <h1>Explorar productos</h1>
+    <p id="search-term" style="color:#64748b;"></p>
+    <div id="explore-grid" class="grid-productos"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__grid">
+      <section class="contacto">
+        <h3>Contacto</h3>
+        <address>Servicio técnico, Chocó, Colombia</address>
+      </section>
+      <section class="sugerencias">
+        <h3>Sugerencias</h3>
+        <form>
+          <input id="nombre" type="text" placeholder="Nombre">
+          <input id="correo" type="email" placeholder="Correo">
+          <textarea id="mensaje" placeholder="Mensaje"></textarea>
+          <button type="submit" class="btn btn--primary">Enviar</button>
+        </form>
+      </section>
+    </div>
+  </footer>
+
+  <script src="assets/scripts/productos.js"></script>
+  <script src="assets/scripts/header.js"></script>
+  <script src="assets/scripts/forms.js"></script>
+  <script>
+    (function(){
+      function q(p){ return new URLSearchParams(window.location.search).get(p); }
+      const term = q('search') || '';
+      document.getElementById('search-term').textContent = term ? `Resultados para: "${term}"` : '';
+      const grid = document.getElementById('explore-grid');
+      const all = obtenerTodosProductos();
+      let results = all;
+      if(term){
+        const t = term.toLowerCase();
+        results = all.filter(p=> p.nombre.toLowerCase().includes(t) || p.descripcion.toLowerCase().includes(t));
+      }
+
+      if(results.length === 0){
+        grid.innerHTML = '<p>No se encontraron productos.</p>';
+      } else {
+        grid.innerHTML = '';
+        results.forEach(p=>{
+          const a = document.createElement('article');
+          a.className = 'producto';
+          a.innerHTML = `\n            <img src="${p.imagen}" alt="${p.nombre}">\n            <h3>${p.nombre}</h3>\n            <p>${p.descripcion}</p>\n            <p style=\"font-weight:bold\">$${p.precio.toLocaleString()}</p>\n            <div style=\"display:flex;gap:.5rem\">\n              <button class=\"btn btn--primary add-to-cart\" data-id=\"${p.id}\" data-name=\"${p.nombre}\" data-price=\"${p.precio}\" data-img=\"${p.imagen}\">Agregar al carrito</button>\n              <a class=\"btn\" href=\"compra.html?producto=${p.id}\">Comprar ahora</a>\n            </div>\n          `;
+          grid.appendChild(a);
+        });
+      }
+
+      // permitir búsqueda rápida desde esta página
+      const searchForm = document.querySelector('form.search');
+      searchForm.addEventListener('submit', e=>{
+        e.preventDefault();
+        const qv = document.getElementById('q-explorar').value.trim();
+        if(!qv) return; window.location.href = `explorar.html?search=${encodeURIComponent(qv)}`;
+      });
+    })();
+  </script>
+</body>
+</html>

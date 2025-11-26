@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  promos.html
+  ---------------------------------------------------------------
+  Página de promociones. Muestra los productos destacados por rating
+  o criterios de oferta. Los botones permiten agregar al carrito o
+  ir a "Comprar ahora".
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Promociones</title>
+  <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="explorar.html">Explorar</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main style="max-width:1100px; margin:2rem auto; padding:0 1rem;">
+    <h1>Promociones</h1>
+    <div id="promos-grid" class="grid-promos"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__grid">
+      <section class="contacto">
+        <h3>Contacto</h3>
+        <address>Servicio técnico, Chocó, Colombia</address>
+      </section>
+    </div>
+  </footer>
+
+  <script src="assets/scripts/productos.js"></script>
+  <script src="assets/scripts/header.js"></script>
+  <script>
+    (function(){
+      const grid = document.getElementById('promos-grid');
+      const all = obtenerTodosProductos();
+      // Tomamos items con mayor rating o simplemente algunos índices
+      const promos = all.filter(p=> p.rating && p.rating >= 4.5).slice(0,6);
+      if(promos.length === 0){ grid.innerHTML = '<p>No hay promociones ahora.</p>'; }
+      else {
+        promos.forEach(p=>{
+          const a = document.createElement('article');
+          a.innerHTML = `\n            <img src=\"${p.imagen}\" alt=\"${p.nombre}\">\n            <h3>${p.nombre}</h3>\n            <p>${p.descripcion}</p>\n            <p style=\"color:#10b981; font-weight:bold;\">Oferta: $${p.precio.toLocaleString()}</p>\n            <div style=\"display:flex; gap:.5rem\">\n              <button class=\"btn btn--primary add-to-cart\" data-id=\"${p.id}\" data-name=\"${p.nombre}\" data-price=\"${p.precio}\" data-img=\"${p.imagen}\">Agregar al carrito</button>\n              <a class=\"btn\" href=\"compra.html?producto=${p.id}\">Comprar ahora</a>\n            </div>\n          `;
+          grid.appendChild(a);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

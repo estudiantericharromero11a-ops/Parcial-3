@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  compra.html
+  ---------------------------------------------------------------
+  Página de checkout: muestra el resumen de la compra y un formulario
+  para recoger los datos del comprador. La confirmación genera una
+  orden guardada en localStorage.
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Resumen de compra - Tienda Web">
+  <meta name="author" content="Richar Romero">
+
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+
+  <meta property="og:title" content="Resumen de compra">
+  <meta property="og:description" content="Confirmación y resumen de tu compra.">
+  <meta property="og:image" content="assets/images/Logo.png">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Resumen de compra">
+  <meta name="twitter:description" content="Confirmación de compra en la tienda.">
+  <meta name="twitter:image" content="assets/images/Logo.png">
+
+  <link rel="icon" href="assets/images/Logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/Logo.png">
+
+  <title>Resumen de Compra</title>
+
+  <link rel="stylesheet" href="assets/styles/styles.css">
+  <link rel="manifest" href="site.webmanifest">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header" role="banner">
+
+    <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="explorar.html">Exploración</a></li>
+        <li><a href="promos.html">Promociones</a></li>
+      </ul>
+    </nav>
+
+    <form class="search" role="search">
+      <label for="buscar" class="visually-hidden">Buscar productos</label>
+      <input id="buscar" type="search" placeholder="Buscar productos...">
+      <button class="btn">Buscar</button>
+    </form>
+
+    <div class="auth">
+      <a href="login.html" data-auth-target class="btn btn--primary">Iniciar sesión</a>
+      <button id="btn-logout" class="btn" style="display:none; margin-left:.5rem;">Cerrar sesión</button>
+      <a href="carrito.html" class="btn">🛒 Carrito</a>
+    </div>
+
+  </header>
+
+  <!-- MAIN -->
+  <main class="carrito-container" aria-labelledby="titulo-compra">
+
+    <h1 id="titulo-compra">Resumen de Compra</h1>
+
+    <!-- LISTA DE PRODUCTOS -->
+    <section class="carrito-lista" aria-label="Productos incluidos en la compra">
+      <div id="cart-items"></div>
+    </section>
+
+    <!-- RESUMEN FINAL -->
+    <aside class="carrito-resumen" aria-labelledby="resumen-title">
+      <h2 id="resumen-title">Detalles del Pago</h2>
+
+      <p class="resumen-linea">
+        Subtotal (<span id="total-items">0</span> productos):
+        <strong>$ <span id="subtotal">0</span></strong>
+      </p>
+
+      <p class="resumen-linea">
+        Envío:
+        <strong>$ <span id="envio">5</span></strong>
+      </p>
+
+      <p class="resumen-total">
+        Total a pagar:
+        <strong>$ <span id="total-pagar">0</span></strong>
+      </p>
+
+      <!-- Acciones -->
+      <button id="btn-confirmar" class="btn btn--primary">Confirmar pago</button>
+      <a href="carrito.html" class="btn btn--danger" style="display:block; margin-top:1rem;">Volver al carrito</a>
+    </aside>
+
+  </main>
+
+  <!-- FORMULARIO DE CHECKOUT -->
+  <section style="max-width:900px; margin:1.5rem auto; padding:0 1rem;">
+    <h2>Información de envío y pago</h2>
+    <form id="checkout-form" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+      <div>
+        <label>Nombre completo</label>
+        <input id="checkout-name" required>
+      </div>
+      <div>
+        <label>Correo</label>
+        <input id="checkout-email" type="email" required>
+      </div>
+      <div style="grid-column:1 / -1">
+        <label>Dirección de envío</label>
+        <input id="checkout-address" required>
+      </div>
+      <div>
+        <label>Método de pago</label>
+        <select id="checkout-payment">
+          <option>Pago contra entrega</option>
+          <option>Transferencia</option>
+          <option>Tarjeta (simulada)</option>
+        </select>
+      </div>
+      <div style="grid-column:1 / -1; text-align:left;">
+        <small style="color:#64748b;">Al confirmar se generará una orden de prueba y no se realizará cobro real en esta demo.</small>
+      </div>
+    </form>
+  </section>
+
+  <!-- SECCIÓN DE GUARDADOS (OPCIONAL) -->
+  <section class="guardados" aria-labelledby="guardados-title">
+    <h2 id="guardados-title">Guardados para comprar después</h2>
+    <div id="saved-items" class="guardados-grid"></div>
+  </section>
+
+  <!-- Script -->
+  <script src="assets/scripts/productos.js"></script>
+  <script src="assets/scripts/cart.js"></script>
+  <script src="assets/scripts/header.js"></script>
+  <script src="assets/scripts/forms.js"></script>
+  <script>
+    // Mejora: al cargar la página, rellenar los campos del checkout con datos del usuario si existe
+    document.addEventListener('DOMContentLoaded', ()=>{
+      try{
+        const user = JSON.parse(localStorage.getItem('user')||'null');
+        if(user){
+          const nameEl = document.getElementById('checkout-name');
+          const emailEl = document.getElementById('checkout-email');
+          if(nameEl && !nameEl.value) nameEl.value = user.nombre || '';
+          if(emailEl && !emailEl.value) emailEl.value = user.email || '';
+        }
+      }catch(e){/* ignore */}
+    });
+  </script>
+
+</body>
+</html>

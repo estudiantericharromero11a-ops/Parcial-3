@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  carrito.html
+  ---------------------------------------------------------------
+  Página para revisar y editar el carrito de compras. Permite eliminar
+  items, cambiar cantidades y navegar a checkout.
+  El comportamiento se implementa en `assets/scripts/cart.js`.
+-->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Carrito de compras - Tienda Web" />
+    <meta name="author" content="Richar Romero" />
+
+    <link rel="stylesheet" href="assets/styles/styles.css" />
+    <title>Carrito</title>
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <nav aria-label="Navegación principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="explorar.html">Explorar</a></li>
+          <li><a href="promos.html">Promociones</a></li>
+        </ul>
+      </nav>
+      <div class="auth">
+        <a href="login.html" data-auth-target class="btn btn--primary">Iniciar sesión</a>
+        <button id="btn-logout" class="btn" style="display:none; margin-left:.5rem;">Cerrar sesión</button>
+        <a href="carrito.html" class="btn">🛒 Carrito (<span id="cart-count">0</span>)</a>
+      </div>
+    </header>
+
+    <main class="carrito-container" aria-labelledby="titulo-carrito">
+      <h1 id="titulo-carrito">🛒 Tu Carrito de Compras</h1>
+
+      <section class="carrito-lista" aria-label="Productos en el carrito">
+        <div id="cart-items" style="min-height: 120px;">Cargando...</div>
+      </section>
+
+      <aside class="carrito-resumen" aria-labelledby="resumen-title">
+        <h2 id="resumen-title">Resumen del Carrito</h2>
+        <p class="resumen-linea">Subtotal (<span id="total-items">0</span>): <strong>$ <span id="subtotal">0</span></strong></p>
+        <p class="resumen-linea">Envío: <strong>$ <span id="envio">5</span></strong></p>
+        <p class="resumen-total">Total a pagar: <strong>$ <span id="total-pagar">0</span></strong></p>
+        <button id="btn-pagar" class="btn btn--primary">Ir a pago</button>
+        <button id="btn-vaciar" class="btn btn--danger" style="margin-top: .5rem;">Vaciar carrito</button>
+      </aside>
+    </main>
+
+    <script src="assets/scripts/productos.js"></script>
+    <script src="assets/scripts/cart.js"></script>
+    <script src="assets/scripts/header.js"></script>
+    <script src="assets/scripts/forms.js"></script>
+  </body>
+</html>

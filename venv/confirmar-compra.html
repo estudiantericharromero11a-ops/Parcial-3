@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirmación de compra</title>
+  <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+  <main style="max-width:800px; margin:2rem auto; padding:0 1rem;">
+    <h1>Gracias por tu compra 🎉</h1>
+    <p id="orden-id">Cargando orden...</p>
+
+    <section id="orden-detalle" style="margin-top:1rem;">
+      <!-- Detalles de la orden -->
+    </section>
+
+    <a href="index.html" class="btn btn--primary" style="margin-top:1rem; display:inline-block;">Volver al inicio</a>
+  </main>
+
+  <script>
+    (function(){
+      function q(p){
+        const params = new URLSearchParams(window.location.search);
+        return params.get(p);
+      }
+
+      const ordenParam = q('orden');
+      let orden = null;
+
+      // Intentar recuperar 'ultimaOrden' de localStorage
+      try{
+        const ultima = localStorage.getItem('ultimaOrden');
+        if(ultima) orden = JSON.parse(ultima);
+      }catch(e){/* ignore */}
+
+      // Si hay query param y no hay orden en localStorage, buscar en 'ordenes'
+      if(!orden && ordenParam){
+        const ordenes = JSON.parse(localStorage.getItem('ordenes')||'[]');
+        orden = ordenes.find(o => o.id === ordenParam);
+      }
+
+      const idEl = document.getElementById('orden-id');
+      const detalleEl = document.getElementById('orden-detalle');
+
+      if(!orden){
+        idEl.textContent = 'No se encontró la orden.';
+      } else {
+        idEl.innerHTML = `<strong>Orden:</strong> ${orden.id} <br><small>${new Date(orden.fecha).toLocaleString()}</small>`;
+
+        const itemsHtml = orden.items.map(item => {
+          const img = item.imagen || 'assets/images/producto_placeholder.png';
+          return `
+            <article style="display:flex; gap:1rem; padding:1rem; border:1px solid #e2e8f0; border-radius:8px; margin-bottom:.7rem;">
+              <img src="${img}" alt="${item.nombre}" style="width:100px; height:100px; object-fit:cover; border-radius:6px;">
+              <div>
+                <h3 style="margin:0 0 .25rem 0">${item.nombre}</h3>
+                <p style="margin:.25rem 0">${item.descripcion || ''}</p>
+                <p style="margin:.25rem 0">Cantidad: ${item.cantidad} · Precio unitario: $${Number(item.precioUnitario).toLocaleString()}</p>
+              </div>
+            </article>
+          `;
+        }).join('\n');
+
+        detalleEl.innerHTML = `
+          <h2>Artículos</h2>
+          ${itemsHtml}
+          <h3>Resumen de pago</h3>
+          <p>Subtotal: $ ${Number(orden.subtotal).toLocaleString()}</p>
+          <p>Envío: $ ${Number(orden.envio).toLocaleString()}</p>
+          <p><strong>Total pagado: $ ${Number(orden.total).toLocaleString()}</strong></p>
+        `;
+
+        // Limpiar 'ultimaOrden' opcionalmente
+        try{ localStorage.removeItem('ultimaOrden'); } catch(e){}
+      }
+    })();
+  </script>
+  <script src="assets/scripts/header.js"></script>
+</body>
+</html>
